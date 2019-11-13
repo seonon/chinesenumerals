@@ -63,6 +63,23 @@ class Chinese {
       8: '八',
       9: '九',
     };
+    this.standardNumbersReverse = {
+      '一': 1,
+      '二': 2,
+      '两': 2,
+      '三': 3,
+      '四': 4,
+      '五': 5,
+      '六': 6,
+      '七': 7,
+      '八': 8,
+      '九': 9,
+      '十': 10,
+      '百': 100,
+      '千': 1000,
+      '万': 10000,
+      '亿': 1e+8,
+    };
     this.digits = [{
         value: 1000,
         char: '千'
@@ -121,7 +138,10 @@ class Chinese {
         value: 1e+4,
         char: '万'
       }
-    ]
+    ];
+
+    this.reg10K = /(.){1}(千|百|十)/g;
+    this.reg = /(.+?)(万|亿)/g;
   }
   toChinese(num) {
     if (num > 9999 * 10 ** 44) {
@@ -144,7 +164,7 @@ class Chinese {
 
 
     let last = this.toChineseUnder10K(num);
-    if (last.length > 1 && last[1] !== '千') {
+    if (last.length === 1 || last[1] !== '千') {
       res = res + '零' + last;
     } else {
       res = res + last;
@@ -188,8 +208,65 @@ class Chinese {
     return res
   }
 
-  toDecimal(num) {
-    return ''
+  toArabic(num) {
+    let res = 0;
+    let lastIndex = 0;
+    let digitsLength = 0;
+    let match;
+
+    do {
+      match = this.reg.exec(num)
+      if (!match) {
+        break;
+      }
+      let digits = match[1];
+      digitsLength = digits.length;
+      let place = match[2];
+      lastIndex = match.index
+      res += this.toArabicUnder10K(digits) * this.standardNumbersReverse[place];
+
+    } while (match)
+    if (num.length > lastIndex + digitsLength + 1) {
+      let reminder = num.slice(lastIndex + digitsLength + 1);
+      reminder = reminder.replace(/^零/, '');
+      const under = this.toArabicUnder10K(reminder);
+      res += under;
+    }
+    return res;
+  }
+
+  toArabicUnder10K(num) {
+    if (num.length === 1) {
+      return this.standardNumbersReverse[num];
+    }
+    if (num.length === 2 && num[0] === '十') {
+      return 10 + this.standardNumbersReverse[num[1]]
+    }
+    let res = 0;
+    let match;
+    let lastIndex = 0;
+    let place;
+    do {
+      match = this.reg10K.exec(num)
+      if (!match) {
+        break;
+      }
+      let digit = match[1];
+      place = match[2];
+      lastIndex = match.index
+      res += this.standardNumbersReverse[digit] * this.standardNumbersReverse[place];
+
+    } while (match)
+    if (num.length > lastIndex + 2) {
+
+      if (num[lastIndex + 2] === '零') {
+        res += this.standardNumbersReverse[num[lastIndex + 3]];
+      } else {
+
+        res += this.standardNumbersReverse[num[lastIndex + 2]] * this.standardNumbersReverse[place] / 10;
+      }
+    }
+    return res;
   }
 }
 module.exports = {
