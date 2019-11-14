@@ -269,7 +269,117 @@ class Chinese {
     return res;
   }
 }
+
+
+class SimplifiedSmallWriting {
+  constructor() {
+    this.fromSBW = {
+      '壹': '一',
+      '贰': '二',
+      '叁': '三',
+      '肆': '四',
+      '伍': '五',
+      '陆': '六',
+      '柒': '七',
+      '捌': '八',
+      '玖': '九',
+      '拾': '十',
+      '佰': '百',
+      '仟': '千',
+      '萬': '万',
+      '億': '亿'
+    }
+    this.toSBW = {
+      '一': '壹',
+      '二': '贰',
+      '三': '叁',
+      '四': '肆',
+      '五': '伍',
+      '六': '陆',
+      '七': '柒',
+      '八': '捌',
+      '九': '玖',
+      '十': '拾',
+      '百': '佰',
+      '千': '仟',
+      '万': '萬',
+      '亿': '億'
+    }
+    this.fromTSW = {
+      '萬': '万',
+      '億': '亿'
+    }
+    this.toTSW = {
+      '万': '萬',
+      '亿': '億'
+    }
+    this.fromTBW = {
+      '壹': '一',
+      '貳': '二',
+      '叄': '三',
+      '肆': '四',
+      '伍': '五',
+      '陸': '六',
+      '柒': '七',
+      '捌': '八',
+      '玖': '九',
+      '拾': '十',
+      '佰': '百',
+      '仟': '千',
+      '萬': '万',
+      '億': '亿'
+    }
+    this.toTBW = {
+      '一': '壹',
+      '二': '貳',
+      '三': '叄',
+      '四': '肆',
+      '五': '伍',
+      '六': '陸',
+      '七': '柒',
+      '八': '捌',
+      '九': '玖',
+      '十': '拾',
+      '百': '佰',
+      '千': '仟',
+      '万': '萬',
+      '亿': '億'
+    }
+
+  }
+  tranform(num, dictionary) {
+    const res = num.replace(/./g, function (m) {
+      if (m in dictionary) {
+        return dictionary[m];
+      } else {
+        return m;
+      }
+    });
+    return res;
+  }
+  toSimplifiedBigWriting(num) {
+    return this.tranform(num, this.toSBW);
+  }
+  fromSimplifiedBigWriting(num) {
+    return this.tranform(num, this.fromSBW);
+  }
+  fromTraditionalSmallWriting(num) {
+    return this.tranform(num, this.fromTSW)
+  }
+  toTraditionalSmallWriting(num) {
+    return this.tranform(num, this.toTSW)
+  }
+  fromTraditionalBigWriting(num) {
+    return this.tranform(num, this.fromTBW)
+  }
+  toTraditionalBigWriting(num) {
+    return this.tranform(num, this.toTBW)
+  }
+
+}
+
 module.exports = {
   military: new Military(),
-  chinese: new Chinese()
+  chinese: new Chinese(),
+  transformer: new SimplifiedSmallWriting()
 }
