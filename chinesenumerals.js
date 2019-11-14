@@ -141,7 +141,7 @@ class Chinese {
     ];
 
     this.reg10K = /(.){1}(千|百|十)/g;
-    this.reg = /(.+?)(万|亿)/g;
+    this.reg = /(.+?)(万|亿|兆|京|垓|秭|穰|沟|涧|正|载)/g;
   }
   toChinese(num) {
     if (num > 9999 * 10 ** 44) {
@@ -211,7 +211,7 @@ class Chinese {
   toArabic(num) {
     let res = 0;
     let lastIndex = 0;
-    let digitsLength = 0;
+    let preLength = 0;
     let match;
 
     do {
@@ -220,14 +220,15 @@ class Chinese {
         break;
       }
       let digits = match[1];
-      digitsLength = digits.length;
+      preLength = digits.length + 1;
       let place = match[2];
       lastIndex = match.index
       res += this.toArabicUnder10K(digits) * this.standardNumbersReverse[place];
 
     } while (match)
-    if (num.length > lastIndex + digitsLength + 1) {
-      let reminder = num.slice(lastIndex + digitsLength + 1);
+
+    if (num.length > lastIndex + preLength) {
+      let reminder = num.slice(lastIndex + preLength);
       reminder = reminder.replace(/^零/, '');
       const under = this.toArabicUnder10K(reminder);
       res += under;
