@@ -51,6 +51,7 @@ class Chinese {
     this.options = {
       zeroChar: '零', //another chioce is 〇
     };
+
     this.options = Object.assign(this.options, opts);
     this.standardNumbers = {
       1: '一',
@@ -79,6 +80,15 @@ class Chinese {
       '千': 1000,
       '万': 10000,
       '亿': 1e+8,
+      '兆': 1e+12,
+      '京': 1e+16,
+      '垓': 1e+20,
+      '秭': 1e+24,
+      '穰': 1e+28,
+      '沟': 1e+32,
+      '涧': 1e+36,
+      '正': 1e+40,
+      '载': 1e+44
     };
     this.digits = [{
         value: 1000,
@@ -139,12 +149,12 @@ class Chinese {
         char: '万'
       }
     ];
-
+    this.biggest = '九千九百九十九' + this.bigNumbers.map(n => n.char).join('九千九百九十九') + '九千九百九十九';
     this.reg10K = /(.){1}(千|百|十)/g;
     this.reg = /(.+?)(万|亿|兆|京|垓|秭|穰|沟|涧|正|载)/g;
   }
   toChinese(num) {
-    if (num > 9999 * 10 ** 44) {
+    if (num > this.biggest_in_arabic) {
       throw new Error('Number to large, Unable to process!');
     }
     let res = ''
