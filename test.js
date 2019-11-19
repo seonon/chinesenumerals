@@ -134,14 +134,39 @@ describe('Chinese<=>Arabic', function () {
 
   });
 });
+const biggestChineseNumber = '九千九百九十九载九千九百九十九正九千九百九十九涧' +
+  '九千九百九十九沟九千九百九十九穰九千九百九十九秭' +
+  '九千九百九十九垓九千九百九十九京九千九百九十九兆' +
+  '九千九百九十九亿九千九百九十九万九千九百九十九';
+
+describe('special numbers', function () {
+  describe('special chinese numbers', function () {
+    it(`should return as the biggest number`, function () {
+      chinese.biggest.should.equal(biggestChineseNumber)
+    })
+  })
+})
 
 describe('auto generated serial number test for chinese<=>arabic', function () {
-
   for (let i = 0; i < 100002; i++) {
     it(`should return ${i} for input ${i}`, function () {
       chinese.toArabic(chinese.toChinese(i)).should.equal(i);
     });
   }
+})
+
+describe('auto generated random number test for chinese<=>arabic', function () {
+  let base = 1e+6;
+  for (let i = 6; i < 18; i++) {
+    for (let j = 0; j < 200; j++) {
+      const num = parseInt(Math.random() * base);
+      it(`should return ${num} for input ${num}`, function () {
+        chinese.toArabic(chinese.toChinese(num)).should.equal(num);
+      });
+    }
+    base *= 10;
+  }
+
 })
 
 
