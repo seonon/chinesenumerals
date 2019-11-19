@@ -1,6 +1,6 @@
 # 中文数字转换
 
-![](hhttps://github.com/seonon/chinesenumerals/workflows/Node%20CI/badge.svg)
+![](https://github.com/seonon/chinesenumerals/workflows/Node%20CI/badge.svg)
 
 支持阿拉伯数字和中文数字之间的转换，中文简体小写数字和简体大写数字、繁体数字、繁体大写数字之间的转换。
 
