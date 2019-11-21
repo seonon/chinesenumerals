@@ -11,7 +11,7 @@
     "numerals",
     "numbers"
   ],
-  "author": "seonon",
+  "author": "xuopoj",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
