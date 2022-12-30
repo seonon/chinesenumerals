@@ -44,7 +44,7 @@
     "es-abstract": "^1.16.0",
     "escape-string-regexp": "^1.0.5",
     "find-up": "^3.0.0",
-    "flat": "^4.1.0",
+    "flat": "^5.0.1",
     "function-bind": "^1.1.1",
     "get-caller-file": "^2.0.5",
     "fs.realpath": "^1.0.0",
